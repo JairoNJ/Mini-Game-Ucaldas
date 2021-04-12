@@ -4,38 +4,31 @@ using UnityEngine;
 
 public class SpawnItems : MonoBehaviour
 {
+    public GameObject souldBlue;
+
     
-    public Transform Player;
     public Transform pointA;
     public Transform pointB;
-    
 
-   
+    public float timeSpawn = 1f;
+    public float repeatRater = 2f;
 
-    void Start()
-    {
-        InitElements();
-    }
 
     // Update is called once per frame
     void Update()
     {
-       
+        InvokeRepeating("SpawnSoulds", 2, repeatRater);
     }
 
-    public void InitElements()
-    {
-        
-        Debug.Log("POINT-A: " + pointA.position);
-        Debug.Log("POINT-B: " + pointB.position);
-    }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void SpawnSoulds()
     {
-        if (other.tag == "PointA")
-        {
-            Player.position = pointA.transform.position;
-            Debug.Log("ENTRASTE");
-        }
+        float point1 = pointA.position.x;
+        float point2 = pointB.position.x;
+        Vector3 spawnPosition = new Vector3(Random.Range(point1, point2), 0, 0);
+        Instantiate(souldBlue, spawnPosition, Quaternion.identity);
     }
+    
+
+ 
 }
