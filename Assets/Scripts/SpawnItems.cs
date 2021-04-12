@@ -4,31 +4,29 @@ using UnityEngine;
 
 public class SpawnItems : MonoBehaviour
 {
-    public GameObject souldBlue;
+    public GameObject souldsPrefab;
+    public float respawnTime = 1.0f;
+    public Vector2 screenBouns;
 
-    
-    public Transform pointA;
-    public Transform pointB;
-
-    public float timeSpawn = 1f;
-    public float repeatRater = 2f;
-
-
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        InvokeRepeating("SpawnSoulds", 2, repeatRater);
+        screenBouns = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.y));
+        StartCoroutine(souldWave());
     }
 
-
-    public void SpawnSoulds()
+    private void SpawnEnemy()
     {
-        float point1 = pointA.position.x;
-        float point2 = pointB.position.x;
-        Vector3 spawnPosition = new Vector3(Random.Range(point1, point2), 0, 0);
-        Instantiate(souldBlue, spawnPosition, Quaternion.identity);
+        GameObject a = Instantiate(souldsPrefab) as GameObject;
+        a.transform.position = new Vector2(Random.Range(-screenBouns.x  , screenBouns.x) , screenBouns.y * 2);
     }
-    
 
+    IEnumerator souldWave()
+    {
+        while(true){
+            yield return new WaitForSeconds(respawnTime);
+            SpawnEnemy();
+        }
+        
+    }
  
 }
