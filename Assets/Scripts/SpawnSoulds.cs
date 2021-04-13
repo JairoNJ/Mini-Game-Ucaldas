@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnItems : MonoBehaviour
+public class SpawnSoulds : MonoBehaviour
 {
-    public GameObject souldsPrefab;
+    public GameObject [] souldsPrefab;
     public float respawnTime = 1.0f;
     public Vector2 screenBouns;
 
@@ -16,7 +16,8 @@ public class SpawnItems : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        GameObject a = Instantiate(souldsPrefab) as GameObject;
+        int randomIndex = Random.Range(0, souldsPrefab.Length);
+        GameObject a = Instantiate(souldsPrefab[randomIndex]) as GameObject;
         a.transform.position = new Vector2(Random.Range(-screenBouns.x  , screenBouns.x) , screenBouns.y * 2);
     }
 

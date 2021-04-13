@@ -14,21 +14,29 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform Player;
     public float posX;
+
+    public Vector2 screenBouns;
+    public Vector3 posPlayer;
+
    
 
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        posPlayer = this.transform.position;
         DirectionPlayer();
         JumpPlayer();
-        WallsPositions();
-        
+        ScreenPosition();
+        Debug.Log("POSITIVO" + screenBouns.x);
+        Debug.Log("NEGATIVO" + -screenBouns.x);
     }
 
     public void DirectionPlayer()
@@ -57,17 +65,29 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void WallsPositions()
+    public void ScreenPosition()
     {
-        float posX = transform.position.x;
-        if(posX >= 8)
+        screenBouns = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+
+        if(transform.position.x > screenBouns.x * 1.5)
         {
-            transform.position = new Vector3(-8, -3, 0);
+           transform.position = new Vector3(-screenBouns.x * 1.1f, transform.position.y, transform.position.z);
+           
         }
-        if(posX <= -8)
+        if(transform.position.x < -screenBouns.x *1.5)
         {
-            transform.position = new Vector3(8, -3, 0);
+           transform.position = new Vector3(screenBouns.x * 1.1f, transform.position.y, transform.position.z);
         }
+
+        //float posX = transform.position.x;
+        //if(posX >= 8)
+        //{
+        //    transform.position = new Vector3(-8, -3, 0);
+        //}
+        //if(posX <= -8)
+        //{
+        //    transform.position = new Vector3(8, -3, 0);
+        //}
     }
 
    
